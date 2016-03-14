@@ -35,6 +35,7 @@ public class SocketWebServer {
             output.println("Content-Type: text/html");
             output.println("Server: Bot");
             output.println("");
+            
             output.println("<H1>Hi World</H1>");
 
             System.out.println("Done printing output");
