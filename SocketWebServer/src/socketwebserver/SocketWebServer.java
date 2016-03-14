@@ -1,6 +1,7 @@
 package socketwebserver;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -13,7 +14,7 @@ public class SocketWebServer {
    public static void main(String[] args) {
       
       try {
-         ServerSocket ss = new ServerSocket(80);
+         ServerSocket ss = new ServerSocket(8080);
          System.out.println("Server Made");
 
          while (true) {
@@ -35,9 +36,18 @@ public class SocketWebServer {
             output.println("Content-Type: text/html");
             output.println("Server: Bot");
             output.println("");
-            
             output.println("<H1>Hi World</H1>");
 
+            String str;
+            FileReader f = new FileReader("src/socketwebserver/test.html");
+            BufferedReader b = new BufferedReader(f);
+            /*while((str = b.readLine()) != null){
+                System.out.println(str);
+             }*/
+            while((str=b.readLine()) != null){
+                output.println(str);
+            }
+            
             System.out.println("Done printing output");
             output.flush();
             s.close();

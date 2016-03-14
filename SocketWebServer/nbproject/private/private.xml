@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Sammy%20Caychingco/Documents/NetBeansProjects/SocketWeb/SocketWebServer/src/socketwebserver/SocketWebServer.java</file>
+=======
+            <file>file:/Users/lawrencefoz/NetBeansProjects/SocketWeb/SocketWebServer/src/socketwebserver/test.html</file>
+            <file>file:/Users/lawrencefoz/NetBeansProjects/SocketWeb/SocketWebServer/src/socketwebserver/HttpParser.java</file>
+            <file>file:/Users/lawrencefoz/NetBeansProjects/SocketWeb/SocketWebServer/src/socketwebserver/SocketWebServer.java</file>
+>>>>>>> 3618959680108622e6387b5a8c9ccecacb35e37e
         </group>
     </open-files>
 </project-private>

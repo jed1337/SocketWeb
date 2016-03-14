@@ -14,7 +14,7 @@ public class SocketWebBrowser {
       try {
 //         String host = "www.dlsu.edu.ph";
          String host = "localhost";
-         Socket socket = new Socket(host, 80);
+         Socket socket = new Socket(host, 8080);
          BufferedReader in = new BufferedReader(new InputStreamReader(
                  socket.getInputStream()));
          PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
