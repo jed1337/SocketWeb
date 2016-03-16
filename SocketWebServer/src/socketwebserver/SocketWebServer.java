@@ -25,15 +25,16 @@ public class SocketWebServer {
             System.out.println("End read buffered reader");
 
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-            out.println("HTTP/1.1 200 OK");
-            out.println("Content-Type: image/jpg");
-            out.println("SocketWebServer: Bot");
-            out.println("");
+            //out.println("HTTP/1.1 200 OK");
+            //out.println("Content-Type: image/png");
+            //out.println("SocketWebServer: Bot");
+            //out.println("");
 
             int i;
             
 //            String fileName = "C:\\Users\\Sammy Caychingco\\Documents\\NetBeansProjects\\SocketWeb\\SocketWebServer\\src\\Assets\\HighMufasa.png";
-            String fileName = "C:\\Users\\Sammy Caychingco\\Desktop\\Reaction Photos\\Whoa.JPG";
+//            String fileName = "C:\\Users\\Sammy Caychingco\\Desktop\\Reaction Photos\\Whoa.JPG";
+            String fileName = "src/Assets/HighMufasa.png";
 
             File file = new File(fileName);
 
@@ -43,7 +44,7 @@ public class SocketWebServer {
             out.write("\r\n");
 
             BufferedImage bufferedImage = ImageIO.read(file);
-            boolean success = ImageIO.write(bufferedImage, "jpeg", client.getOutputStream());
+            boolean success = ImageIO.write(bufferedImage, "png", client.getOutputStream());
             System.out.println("Success: " + success); //true
             out.close();
             in.close();
@@ -55,7 +56,7 @@ public class SocketWebServer {
          }
       } catch (IOException ex) {
          System.out.println("ERROR");
-         Logger.getLogger(SocketWebServer.class.getName()).log(Level.SEVERE, null, ex);
+         //Logger.getLogger(SocketWebServer.class.getName()).log(Level.SEVERE, null, ex);
       }
    }
 }
