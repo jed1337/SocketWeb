@@ -52,20 +52,12 @@ package socketwebbrowser;
 //}
 //</editor-fold>
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
 class SocketWebBrowser{
 
    Socket socket;
-
-//*******************************Client1 GUI*********************************//
-   /*TextField tf;
-   TextArea ta;
-   Label lb;
-   Button b;*/
 
     public SocketWebBrowser() {
         try {
@@ -77,60 +69,19 @@ class SocketWebBrowser{
         
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    //String fileName = "C:\\Users\\Sammy Caychingco\\Documents\\NetBeansProjects\\SocketWeb\\SocketWebServer\\src\\Assets\\Untitled.png";
-//    String fileName = "/Users/lawrencefoz/NetBeansProjects/SocketWeb/SocketWebServer/src/Assets/HighMufasa.png";
-//    System.out.println(fileName);
-    
         int i;
       
         try {
             DataInputStream din = new DataInputStream(socket.getInputStream()); 
-            /*int count = din.available();
-            byte[] bs = new byte[count];
-            din.read(bs);*/
+
             while((i = din.read()) > -1){
                 System.out.print(i);
             }
-    //         File file = new File(fileName);
-    //         FileInputStream fin = new FileInputStream(file);
-    //         
-    //         dout.writeUTF(fileName);
-    //         System.out.println("Sending image...");
-    //         byte[] readData = new byte[1024];
-    //
-    //         while ((i = fin.read(readData)) != -1) {
-    //            dout.write(readData, 0, i);
-    //         }
-    //         System.out.println("Image sent");
-    //         fin.close();
 
             System.out.println("\n\nImage received");
         } catch (IOException ex) {
             System.out.println("Image ::" + ex);
         }
-       
-//<editor-fold defaultstate="collapsed" desc="old GUI">
-       /*Frame f = new Frame("Client");
-       f.setLayout(new FlowLayout());
-       f.setBackground(Color.orange);
-       tf = new TextField(15);
-       ta = new TextArea(12, 20);
-       ta.setBackground(Color.white);
-       lb = new Label("Enter File Name To Be Send");
-       b = new Button("Send");
-       f.add(lb);
-       f.add(tf);
-       f.add(b);
-       f.add(ta);
-       ta.setBounds(200, 200, 10, 10);
-       f.addWindowListener(new W1());
-       b.addActionListener(this);
-       f.setSize(300, 400);
-       f.setLocation(300, 300);
-       f.setVisible(true);
-       f.validate();*/
-//</editor-fold> 
-
    }
 
    public static void main(String ar[]) {
