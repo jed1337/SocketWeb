@@ -55,36 +55,51 @@ package socketwebbrowser;
 import java.io.*;
 import java.net.*;
 
-class SocketWebBrowser{
+class SocketWebBrowser extends Thread{
+    private int number;
+    private Socket socket;
 
-   Socket socket;
-
-    public SocketWebBrowser() {
+    public SocketWebBrowser(int number) {
+        System.out.println("Number: "+number);
+        this.number = number;
+        
         try {
             socket = new Socket("localhost", 8080);
             System.out.println(socket);
         } catch (Exception e) {
             System.out.println(e);
         }
-        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    }
 
+    @Override
+    public void run(){
         int i;
       
         try {
-            DataInputStream din = new DataInputStream(socket.getInputStream()); 
+            DataInputStream din = new DataInputStream(socket.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            while((i = din.read()) > -1){
+            /*while((i = din.read()) > -1){
                 System.out.print(i);
+            }*/
+            
+            String line;
+            long start = System.currentTimeMillis();
+            while ((line = br.readLine()) != null) {
+                //System.out.println(line);
             }
-
-            System.out.println("\n\nImage received");
+            long end = System.currentTimeMillis() - start;
+            System.out.println("Total Runtime: "+end+"\n "
+                             + "File received, number"+number);            
         } catch (IOException ex) {
-            System.out.println("Image ::" + ex);
+            System.out.println("File ::" + ex);
         }
    }
 
    public static void main(String ar[]) {
-      SocketWebBrowser object = new SocketWebBrowser();
+       int LIMIT = 100;
+       for(int i=0;i<LIMIT;i++){
+           new SocketWebBrowser(i).start();
+       }
    }
 }
