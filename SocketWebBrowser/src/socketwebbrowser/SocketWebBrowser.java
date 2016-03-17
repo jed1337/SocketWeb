@@ -1,6 +1,5 @@
 package socketwebbrowser;
 //<editor-fold defaultstate="collapsed" desc="OLD CODE">
-//
 //import java.io.BufferedReader;
 //import java.io.IOException;
 //import java.io.InputStreamReader;
@@ -52,8 +51,11 @@ package socketwebbrowser;
 //}
 //</editor-fold>
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
 
 class SocketWebBrowser{
 
@@ -67,13 +69,10 @@ class SocketWebBrowser{
             System.out.println(e);
         }
         
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int i;
-      
         try {
             DataInputStream din = new DataInputStream(socket.getInputStream()); 
-
+            
+            int i;
             while((i = din.read()) > -1){
                 System.out.print(i);
             }

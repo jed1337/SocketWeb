@@ -87,4 +87,5 @@ public class SocketWebServer {
       System.err.println("ERROR" + ex.getMessage());
       System.err.println(Arrays.toString(ex.getStackTrace()));
    }
+
 }
