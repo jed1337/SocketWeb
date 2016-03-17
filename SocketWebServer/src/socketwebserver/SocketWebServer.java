@@ -1,8 +1,10 @@
 package socketwebserver;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -16,8 +18,9 @@ public class SocketWebServer {
    public static void main(String[] args) throws IOException {
       System.out.println("The chat server is running.");
       
+      String fileName = "src/Assets/05_mb_file.txt";
 //      String fileName = "src/Assets/HighMufasa.png";
-      String fileName = "src\\Assets\\HighMufasa.png";
+//      String fileName = "src\\Assets\\HighMufasa.png";
 
       try (ServerSocket ss = new ServerSocket(8080)) {
          while (true) {
@@ -42,11 +45,21 @@ public class SocketWebServer {
          try {
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
             File file       = new File(fileName);
-            printHeaders(out, file);
-
-            BufferedImage bufferedImage = ImageIO.read(file);
+            //printHeaders(out, file);
+            
+            String str;
+            FileReader f = new FileReader(file);
+            BufferedReader b = new BufferedReader(f);
+            /*while((str = b.readLine()) != null){
+                System.out.println(str);
+             }*/
+            while((str=b.readLine()) != null){
+                out.println(str);
+            }
+            
+            /*BufferedImage bufferedImage = ImageIO.read(file);
             boolean success             = ImageIO.write(bufferedImage, "png", client.getOutputStream());
-            System.out.println("Success: " + success); //true
+            System.out.println("Success: " + success); //true*/
             System.out.println("Done printing output");
 
             out.flush();

@@ -57,33 +57,50 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-class SocketWebBrowser{
+class SocketWebBrowser extends Thread {
+   private int number;
+   private Socket socket;
 
-   Socket socket;
+   public SocketWebBrowser(int number) {
+      System.out.println("Number: " + number);
+      this.number = number;
 
-    public SocketWebBrowser() {
-        try {
-            socket = new Socket("localhost", 8080);
-            System.out.println(socket);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        try {
-            DataInputStream din = new DataInputStream(socket.getInputStream()); 
-            
-            int i;
-            while((i = din.read()) > -1){
-                System.out.print(i);
-            }
+      try {
+         socket = new Socket("localhost", 8080);
+         System.out.println(socket);
+      } catch (Exception e) {
+         System.out.println(e);
+      }
+   }
 
-            System.out.println("\n\nImage received");
-        } catch (IOException ex) {
-            System.out.println("Image ::" + ex);
-        }
+   @Override
+   public void run() {
+      int i;
+
+      try {
+         DataInputStream din = new DataInputStream(socket.getInputStream());
+         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+         /*while((i = din.read()) > -1){
+          System.out.print(i);
+          }*/
+         String line;
+         long start = System.currentTimeMillis();
+         while ((line = br.readLine()) != null) {
+            //System.out.println(line);
+         }
+         long end = System.currentTimeMillis() - start;
+         System.out.println("Total Runtime: " + end + "\n "
+                 + "File received, number" + number);
+      } catch (IOException ex) {
+         System.out.println("File ::" + ex);
+      }
    }
 
    public static void main(String ar[]) {
-      SocketWebBrowser object = new SocketWebBrowser();
+      int LIMIT = 100;
+      for (int i = 0; i < LIMIT; i++) {
+         new SocketWebBrowser(i).start();
+      }
    }
 }
