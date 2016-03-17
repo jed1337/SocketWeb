@@ -84,7 +84,7 @@ public class SocketWebServer {
    }
 
    private static void printError(IOException ex) {
-      System.err.println("ERROR" :+ex.getMessage());
+      System.err.println("ERROR" + ex.getMessage());
       System.err.println(Arrays.toString(ex.getStackTrace()));
    }
 }
