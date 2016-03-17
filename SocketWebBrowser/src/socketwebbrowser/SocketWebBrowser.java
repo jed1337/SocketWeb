@@ -73,9 +73,8 @@ class SocketWebBrowser{
             System.out.println(socket);
         } catch (Exception e) {
             System.out.println(e);
-        } 
-       
-       
+        }
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     //String fileName = "C:\\Users\\Sammy Caychingco\\Documents\\NetBeansProjects\\SocketWeb\\SocketWebServer\\src\\Assets\\Untitled.png";
@@ -86,13 +85,11 @@ class SocketWebBrowser{
       
         try {
             DataInputStream din = new DataInputStream(socket.getInputStream()); 
-            int count = din.available();
+            /*int count = din.available();
             byte[] bs = new byte[count];
-            din.read(bs);
-            for (byte b:bs)
-            {
-                char c = (char)b;
-                System.out.print(c);
+            din.read(bs);*/
+            while((i = din.read()) > -1){
+                System.out.print(i);
             }
     //         File file = new File(fileName);
     //         FileInputStream fin = new FileInputStream(file);
@@ -107,7 +104,7 @@ class SocketWebBrowser{
     //         System.out.println("Image sent");
     //         fin.close();
 
-            System.out.println("Image received");
+            System.out.println("\n\nImage received");
         } catch (IOException ex) {
             System.out.println("Image ::" + ex);
         }
@@ -132,15 +129,9 @@ class SocketWebBrowser{
        f.setLocation(300, 300);
        f.setVisible(true);
        f.validate();*/
-//</editor-fold>
-
-//*********************************GUI END*******************************//   
-//********************************Creating Connection*********************//   
-      
+//</editor-fold> 
 
    }
-
-//********************************************************************//
 
    public static void main(String ar[]) {
       SocketWebBrowser object = new SocketWebBrowser();
