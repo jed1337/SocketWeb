@@ -79,27 +79,24 @@ class SocketWebBrowser extends Thread{
             DataInputStream din = new DataInputStream(socket.getInputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            /*while((i = din.read()) > -1){
-                System.out.print(i);
-            }*/
-            
             String line;
-            long start = System.currentTimeMillis();
+            //long start = System.currentTimeMillis();
             while ((line = br.readLine()) != null) {
-                //System.out.println(line);
+                
             }
-            long end = System.currentTimeMillis() - start;
-            System.out.println("Total Runtime: "+end+"\n "
-                             + "File received, number"+number);            
+            //long end = System.currentTimeMillis() - start;
+            //System.out.println("Total Runtime: "+end+"\n ");
+            System.out.println("File received, number "+number);            
         } catch (IOException ex) {
-            System.out.println("File ::" + ex);
+            System.out.println("File :: " + ex);
         }
    }
 
-   public static void main(String ar[]) {
-       int LIMIT = 100;
-       for(int i=0;i<LIMIT;i++){
-           new SocketWebBrowser(i).start();
-       }
-   }
+    public static void main(String ar[]) {
+        int i = 0;
+
+        while(true){
+            new SocketWebBrowser(++i).start();
+        }
+    }
 }
