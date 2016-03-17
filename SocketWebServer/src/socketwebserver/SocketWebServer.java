@@ -1,6 +1,5 @@
 package socketwebserver;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
@@ -100,5 +99,4 @@ public class SocketWebServer {
       System.err.println("ERROR" + ex.getMessage());
       System.err.println(Arrays.toString(ex.getStackTrace()));
    }
-
 }

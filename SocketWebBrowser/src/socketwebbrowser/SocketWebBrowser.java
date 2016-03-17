@@ -56,21 +56,19 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class SocketWebBrowser extends Thread {
    private int number;
    private Socket socket;
 
-   public SocketWebBrowser(int number) {
+   public SocketWebBrowser(int number) throws IOException {
       System.out.println("Number: " + number);
       this.number = number;
 
-      try {
-         socket = new Socket("localhost", 8080);
-         System.out.println(socket);
-      } catch (Exception e) {
-         System.out.println(e);
-      }
+      socket = new Socket("localhost", 8080);
+      System.out.println(socket);
    }
 
    @Override
@@ -81,26 +79,23 @@ class SocketWebBrowser extends Thread {
          DataInputStream din = new DataInputStream(socket.getInputStream());
          BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-         /*while((i = din.read()) > -1){
-          System.out.print(i);
-          }*/
          String line;
-         long start = System.currentTimeMillis();
+         StringBuilder sb = new StringBuilder();
          while ((line = br.readLine()) != null) {
-            //System.out.println(line);
+             sb.append(line);
          }
-         long end = System.currentTimeMillis() - start;
-         System.out.println("Total Runtime: " + end + "\n "
-                 + "File received, number" + number);
-      } catch (IOException ex) {
-         System.out.println("File ::" + ex);
-      }
+//            System.out.println(sb);
+         System.out.println("File received, number "+number);            
+        } catch (IOException ex) {
+           System.err.println("ERROR File: " + ex + " Number: "+number);
+        }
    }
 
-   public static void main(String ar[]) {
-      int LIMIT = 100;
-      for (int i = 0; i < LIMIT; i++) {
-         new SocketWebBrowser(i).start();
-      }
-   }
+    public static void main(String ar[]) throws IOException {
+        int i = 0;
+
+        while(true){
+            new SocketWebBrowser(++i).start();
+        }
+    }
 }
