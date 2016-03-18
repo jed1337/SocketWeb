@@ -1,10 +1,10 @@
 package socketwebserver;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,19 +42,28 @@ public class SocketWebServer {
       @Override
       public void run() {
          try {
-            PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-            File file       = new File(fileName);
-            //printHeaders(out, file);
+            OutputStream out = client.getOutputStream();
+            FileInputStream file = new FileInputStream(fileName);
+//            FileReader f = new FileReader(file);
+//             BufferedInputStream b = new BufferedInputStream(file);
+
+//            char buffer[] = new char[1024];
+            byte buffer[] = new byte[1024];
+            int LENGTH = buffer.length;
+            int count;
             
-            String str;
-            FileReader f = new FileReader(file);
-            BufferedReader b = new BufferedReader(f);
-            /*while((str = b.readLine()) != null){
-                System.out.println(str);
-             }*/
-            while((str=b.readLine()) != null){
-                out.println(str);
+//            StringBuilder response = new StringBuilder();
+//            String NEW_LINE = "\n";
+            while ((count = file.read(buffer)) != -1){
+//                out.write(buffer, count, LENGTH);
+                out.write(buffer);
             }
+//                out.println(Arrays.toString(buffer));
+            
+            
+//            while((str=b.readLine()) != null){
+//                out.println(str);
+//            }
             
             /*BufferedImage bufferedImage = ImageIO.read(file);
             boolean success             = ImageIO.write(bufferedImage, "png", client.getOutputStream());
