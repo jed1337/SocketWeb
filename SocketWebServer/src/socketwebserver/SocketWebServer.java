@@ -12,18 +12,23 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import java.util.Arrays;
 import static java.lang.System.in;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SocketWebServer {
-   public static void main(String[] args) throws IOException {
-      System.out.println("The chat server is running.");
-      
-      String fileName = "src/Assets/05_mb_file.txt";
 //      String fileName = "src/Assets/HighMufasa.png";
 //      String fileName = "src\\Assets\\HighMufasa.png";
+    
+    private static final String FILE_NAME = "src/Assets/05_mb_file.txt";
+    private static final int THREAD_COUNT = 8;
+    
+   public static void main(String[] args) throws IOException {
+      System.out.println("The chat server is running.");      
 
       try (ServerSocket ss = new ServerSocket(8080)) {
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
          while (true) {
-            new Handler(ss.accept(), fileName).start();
+            executor.submit(new Handler(ss.accept(), FILE_NAME));
          }
       }
    }
@@ -42,34 +47,18 @@ public class SocketWebServer {
       @Override
       public void run() {
          try {
+            
             OutputStream out = client.getOutputStream();
             FileInputStream file = new FileInputStream(fileName);
-//            FileReader f = new FileReader(file);
-//             BufferedInputStream b = new BufferedInputStream(file);
-
-//            char buffer[] = new char[1024];
+            printHeaders(out);
             byte buffer[] = new byte[1024];
             int LENGTH = buffer.length;
             int count;
             
-//            StringBuilder response = new StringBuilder();
-//            String NEW_LINE = "\n";
             while ((count = file.read(buffer)) != -1){
-//                out.write(buffer, count, LENGTH);
                 out.write(buffer);
             }
-//                out.println(Arrays.toString(buffer));
             
-            
-//            while((str=b.readLine()) != null){
-//                out.println(str);
-//            }
-            
-            /*BufferedImage bufferedImage = ImageIO.read(file);
-            boolean success             = ImageIO.write(bufferedImage, "png", client.getOutputStream());
-            System.out.println("Success: " + success); //true*/
-            System.out.println("Done printing output");
-
             out.flush();
 
             close(out);
@@ -80,16 +69,16 @@ public class SocketWebServer {
          }
       }
 
-      private void printHeaders(PrintWriter out, File file) throws IOException {
-         out.println("HTTP/1.1 200 OK");
-         out.println("Content-Type: image/png");
-         out.println("SocketWebServer: Bot");
-         out.println("");
+      private void printHeaders(OutputStream out) throws IOException {
+         out.write("HTTP/1.1 200 OK\r\n".getBytes());
+         out.write("Content-Type: text/html\r\n".getBytes());
+         out.write("SocketWebServer: Bot\r\n".getBytes());
+         out.write("\r\n".getBytes());
 
-         ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
+         /*ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
          long size = imageInputStream.length();
          out.write("Content-Length: " + size + "\r\n");
-         out.write("\r\n");
+         out.write("\r\n");*/
       }
    }
 
