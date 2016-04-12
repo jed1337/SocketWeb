@@ -8,22 +8,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import static java.lang.System.in;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SocketWebServer {
     private static final String FILE_NAME = "src/Assets/05_mb_file.txt";
     private static final int THREAD_COUNT = 8;
     
    public static void main(String[] args) throws IOException {
-      System.out.println("The chat server is running.");      
+      System.out.println("The chat server is running.");
+      
 
       try (ServerSocket ss = new ServerSocket(8080)) {
+         new Thread(new Handler(ss.accept(), FILE_NAME)).start();
          
-        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
-         while (true) {
-            executor.submit(new Handler(ss.accept(), FILE_NAME));
-         }
+//        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
+//         while (true) {
+//            executor.submit(new Handler(ss.accept(), FILE_NAME));
+//         }
       }
    }
 
@@ -32,7 +32,7 @@ public class SocketWebServer {
       private final String fileName;
 
       public Handler(Socket socket, String fileName) {
-         this.client = socket;
+         this.client   = socket;
          this.fileName = fileName;
 
          System.out.println("Client accepted");
@@ -42,11 +42,12 @@ public class SocketWebServer {
       public void run() {
          try {
             
-            OutputStream out = client.getOutputStream();
+            OutputStream out     = client.getOutputStream();
             FileInputStream file = new FileInputStream(fileName);
             printHeaders(out);
+            
             byte buffer[] = new byte[1024];
-            int LENGTH = buffer.length;
+            int LENGTH    = buffer.length;
             int count;
             
             while ((count = file.read(buffer)) != -1){
@@ -68,7 +69,6 @@ public class SocketWebServer {
          out.write("Content-Type: text/html\r\n".getBytes());
          out.write("SocketWebServer: Bot\r\n".getBytes());
          out.write("\r\n".getBytes());
-
       }
    }
 
