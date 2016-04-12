@@ -1,24 +1,17 @@
 package socketwebserver;
 
 import java.io.Closeable;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import java.util.Arrays;
 import static java.lang.System.in;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SocketWebServer {
-//      String fileName = "src/Assets/HighMufasa.png";
-//      String fileName = "src\\Assets\\HighMufasa.png";
-    
     private static final String FILE_NAME = "src/Assets/05_mb_file.txt";
     private static final int THREAD_COUNT = 8;
     
@@ -26,6 +19,7 @@ public class SocketWebServer {
       System.out.println("The chat server is running.");      
 
       try (ServerSocket ss = new ServerSocket(8080)) {
+         
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
          while (true) {
             executor.submit(new Handler(ss.accept(), FILE_NAME));
@@ -61,9 +55,9 @@ public class SocketWebServer {
             
             out.flush();
 
-            close(out);
-            close(in);
-            close(client);
+            safeClose(out);
+            safeClose(in);
+            safeClose(client);
          } catch (IOException ex) {
             printError(ex);
          }
@@ -75,14 +69,10 @@ public class SocketWebServer {
          out.write("SocketWebServer: Bot\r\n".getBytes());
          out.write("\r\n".getBytes());
 
-         /*ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
-         long size = imageInputStream.length();
-         out.write("Content-Length: " + size + "\r\n");
-         out.write("\r\n");*/
       }
    }
 
-   private static void close(Closeable c) {
+   private static void safeClose(Closeable c) {
       if (c == null) {
          return;
       }

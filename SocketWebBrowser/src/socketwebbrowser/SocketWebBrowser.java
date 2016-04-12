@@ -9,9 +9,9 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class SocketWebBrowser extends Thread {
-   private int number;
-   private Socket socket;
+public class SocketWebBrowser extends Thread {
+   private final int number;
+   private final Socket socket;
    private static final int THREAD_COUNT = 8;
 
    public SocketWebBrowser(int number) throws IOException {
@@ -24,8 +24,6 @@ class SocketWebBrowser extends Thread {
 
    @Override
    public void run() {
-      int i;
-
       try {
           BufferedInputStream b = new BufferedInputStream(socket.getInputStream());
           OutputStream out = socket.getOutputStream();
