@@ -19,7 +19,7 @@ class SocketWebBrowser extends Thread {
       System.out.println("Number: " + number);
       this.number = number;
 
-      socket = new Socket("localhost", 8080);
+      socket = new Socket("localhost", 9001);
       System.out.println(socket);
    }
 
