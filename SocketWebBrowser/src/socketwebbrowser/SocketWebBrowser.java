@@ -2,6 +2,7 @@ package socketwebbrowser;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -9,9 +10,9 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SocketWebBrowser extends Thread {
-   private final int number;
-   private final Socket socket;
+class SocketWebBrowser extends Thread {
+   private int number;
+   private Socket socket;
    private static final int THREAD_COUNT = 8;
 
    public SocketWebBrowser(int number) throws IOException {
@@ -24,18 +25,26 @@ public class SocketWebBrowser extends Thread {
 
    @Override
    public void run() {
+      int i;
+
       try {
-          BufferedInputStream b = new BufferedInputStream(socket.getInputStream());
+          InputStream b = socket.getInputStream();
           OutputStream out = socket.getOutputStream();
           
-          int count;
-            byte buffer[] = new byte[1024];
+            int count = b.read();
+            //byte buffer[] = b.r;
 
-          while((count = b.read(buffer))!=-1){
-              out.write(buffer, 0, count);
-          }
-          
-         System.out.println("File received, number "+number);            
+            /*while((count = b.read(buffer))!=-1){
+                out.write(buffer, 0, count);
+                System.out.print(count);
+            }*/
+            
+            while(count != -1){
+                System.out.print(count);
+                count = b.read();
+            }
+            System.out.println();
+            System.out.println("File received, number "+number);            
         } catch (IOException ex) {
            System.err.println("ERROR File: " + ex + " Number: "+number);
         } finally{
@@ -51,9 +60,9 @@ public class SocketWebBrowser extends Thread {
     public static void main(String ar[]) throws IOException {
         int i = 0;
         ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
-        while(true){
+        //while(true){
             executor.submit(new SocketWebBrowser(++i));
-        }
+        //}
             
     }
 }
